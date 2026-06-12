@@ -98,6 +98,10 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);font-size:14px;li
 .ftr{padding:24px 16px 0;border-top:1px solid var(--bd);text-align:center;font-size:11px;color:var(--mt);line-height:1.9}
 .sub-note{font-size:10.5px;color:var(--mt);padding:2px 16px 10px}
 
+/* embed 모드: Notion iframe 여백 최소화 */
+body.embed-mode{background:#fff}
+body.embed-mode .w{padding-top:8px;padding-bottom:12px}
+
 @media(max-width:430px){
   .hdr h1{font-size:17px}
   .sc p{font-size:13px}
@@ -150,7 +154,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);font-size:14px;li
   <canvas id="ga4C" height="190"></canvas>
 </div>
 
-<div class="tb">
+<div class="tb ga4-table">
   <div class="ts">
     <table>
       <thead>
@@ -180,14 +184,14 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);font-size:14px;li
     </table>
   </div>
 </div>
-<p class="sub-note">* 직전 7일(5/25~5/31) — Sessions 7,892 / Active Users 6,497 / Views 13,559 / V/S 1.72 (5/28 첫 유입)</p>
+<p class="sub-note ga4-note">* 직전 7일(5/25~5/31) — Sessions 7,892 / Active Users 6,497 / Views 13,559 / V/S 1.72 (5/28 첫 유입)</p>
 </div><!-- /#ga4-section -->
 
 <!-- 4. CHANNEL LINE CHART -->
 <div id="channel-section">
 <div class="sl">채널별 언급량 추이</div>
 
-<div class="pills">
+<div class="pills ch-pills">
   <div class="pill"><span class="dot" style="background:#4A67FF"></span>인스타그램</div>
   <div class="pill"><span class="dot" style="background:#2CB67D"></span>언론사뉴스</div>
   <div class="pill"><span class="dot" style="background:#F7A600"></span>네이버블로그</div>
@@ -202,7 +206,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);font-size:14px;li
   <canvas id="chC" height="220"></canvas>
 </div>
 
-<div class="tb">
+<div class="tb ch-table">
   <div class="ts">
     <table>
       <thead>
@@ -223,7 +227,7 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);font-size:14px;li
     </table>
   </div>
 </div>
-<p class="sub-note">* 네이버·다음 뉴스는 keyword + exclude 적용 (include 미적용) · 차트 제외, 참고 제공</p>
+<p class="sub-note ch-note">* 네이버·다음 뉴스는 keyword + exclude 적용 (include 미적용) · 차트 제외, 참고 제공</p>
 </div><!-- /#channel-section -->
 
 <!-- 5. KEYWORD TIMELINE -->
@@ -318,7 +322,6 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);font-size:14px;li
   </div>
 
 </div>
-
 </div><!-- /#keyword-section -->
 
 <!-- 6. 원문 분석 -->
@@ -479,167 +482,18 @@ body{font-family:var(--f);background:var(--bg);color:var(--tx);font-size:14px;li
 
 </div><!-- /w -->
 
-<!-- ── 차트 다운로드 플로팅 패널 ── -->
-<style>
-/* ── view 파라미터 적용 시 Notion embed 최적화 ── */
-body.embed-mode {
-  background: #FFFFFF;
-}
-body.embed-mode .w {
-  padding-top: 8px;
-  padding-bottom: 16px;
-}
-/* 섹션 기본 display 유지 (JS가 숨기기 전까지) */
-#ga4-section,
-#channel-section,
-#keyword-section { display: block; }
-</style>
-.export-panel{
-  position:fixed;bottom:20px;right:16px;
-  display:flex;flex-direction:column;gap:8px;
-  z-index:9999;
-}
-.export-panel .ep-title{
-  font-size:10px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
-  color:#fff;background:#4A67FF;border-radius:6px;
-  padding:5px 10px;text-align:center;
-  box-shadow:0 2px 8px rgba(74,103,255,.35);
-}
-.export-panel .ep-btn{
-  display:flex;align-items:center;gap:7px;
-  background:#fff;border:1.5px solid #E4E7F0;border-radius:8px;
-  padding:8px 12px;font-size:12px;font-weight:600;color:#222;
-  cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.08);
-  transition:border-color .15s,box-shadow .15s;
-  text-decoration:none;white-space:nowrap;
-}
-.export-panel .ep-btn:hover{border-color:#4A67FF;box-shadow:0 2px 12px rgba(74,103,255,.25);}
-.export-panel .ep-btn .ep-ico{font-size:15px;line-height:1;}
-.export-panel .ep-btn .ep-sub{font-size:10px;color:#999;font-weight:400;}
-.export-panel .ep-btn.ready .ep-ico::after{content:'✓';color:#1D9F6E;}
-.export-panel .ep-all{
-  background:#4A67FF;color:#fff;border-color:#4A67FF;
-  justify-content:center;font-weight:700;
-}
-.export-panel .ep-all:hover{background:#3a52cc;border-color:#3a52cc;}
-</style>
-
-<div class="export-panel" id="exportPanel">
-  <div class="ep-title">📥 차트 내보내기</div>
-  <button class="ep-btn" id="btnGA4" onclick="exportChart('GA4_Trend','ga4C')">
-    <span class="ep-ico">📊</span>
-    <span><div>GA4_Trend.png</div><div class="ep-sub">이벤트 페이지 반응</div></span>
-  </button>
-  <button class="ep-btn" id="btnCH" onclick="exportChart('Channel_Trend','chC')">
-    <span class="ep-ico">📈</span>
-    <span><div>Channel_Trend.png</div><div class="ep-sub">채널별 언급량 추이</div></span>
-  </button>
-  <button class="ep-btn" id="btnKW" onclick="exportKeyword()">
-    <span class="ep-ico">🔥</span>
-    <span><div>Keyword_Timeline.png</div><div class="ep-sub">주요 키워드 변화</div></span>
-  </button>
-  <button class="ep-btn ep-all" onclick="exportAll()">모두 다운로드</button>
-</div>
-
-<!-- html2canvas (Keyword Timeline DOM → PNG) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
 <script>
 'use strict';
 
 /* ════════════════════════════════════
-   Chart.js canvas → 고해상도 PNG export
-   pixelRatio 2x → Notion 업로드용
-   ════════════════════════════════════ */
-function exportChart(filename, canvasId) {
-  var canvas = document.getElementById(canvasId);
-  if (!canvas) { alert(canvasId + ' 차트를 찾을 수 없습니다.'); return; }
-
-  var DPR = 2; // 2x 고해상도
-  var W = canvas.width;
-  var H = canvas.height;
-
-  // 오프스크린 캔버스에 2x 크기로 그리기
-  var offscreen = document.createElement('canvas');
-  offscreen.width  = W * DPR;
-  offscreen.height = H * DPR;
-  var ctx = offscreen.getContext('2d');
-  ctx.scale(DPR, DPR);
-
-  // 흰 배경 채우기 (Notion 업로드 시 투명 제거)
-  ctx.fillStyle = '#FFFFFF';
-  ctx.fillRect(0, 0, W, H);
-  ctx.drawImage(canvas, 0, 0, W, H);
-
-  triggerDownload(offscreen.toDataURL('image/png', 1.0), filename + '.png');
-  markDone(filename);
-}
-
-/* ════════════════════════════════════
-   Keyword Timeline DOM → html2canvas → PNG
-   ════════════════════════════════════ */
-function exportKeyword() {
-  var el = document.querySelector('.kwt');
-  if (!el) { alert('.kwt 요소를 찾을 수 없습니다.'); return; }
-
-  html2canvas(el, {
-    scale: 2,
-    backgroundColor: '#FFFFFF',
-    useCORS: true,
-    logging: false,
-    width: el.scrollWidth,
-    height: el.scrollHeight,
-    windowWidth: el.scrollWidth + 64
-  }).then(function(canvas) {
-    triggerDownload(canvas.toDataURL('image/png', 1.0), 'Keyword_Timeline.png');
-    markDone('Keyword_Timeline');
-  });
-}
-
-/* ════════════════════════════════════
-   모두 다운로드 (순차 실행)
-   ════════════════════════════════════ */
-function exportAll() {
-  exportChart('GA4_Trend', 'ga4C');
-  setTimeout(function(){ exportChart('Channel_Trend', 'chC'); }, 300);
-  setTimeout(function(){ exportKeyword(); }, 600);
-}
-
-/* ── 다운로드 트리거 ── */
-function triggerDownload(dataURL, filename) {
-  var a = document.createElement('a');
-  a.href = dataURL;
-  a.download = filename;
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
-}
-
-/* ── 버튼 완료 표시 ── */
-function markDone(filename) {
-  var map = {
-    'GA4_Trend': 'btnGA4',
-    'Channel_Trend': 'btnCH',
-    'Keyword_Timeline': 'btnKW'
-  };
-  var btn = document.getElementById(map[filename]);
-  if (btn) {
-    btn.style.borderColor = '#1D9F6E';
-    var ico = btn.querySelector('.ep-ico');
-    if (ico) ico.textContent = '✅';
-  }
-}
-
-/* ════════════════════════════════════
    GA4 combo chart
    ════════════════════════════════════ */
-var ga4Chart;
 (function(){
   var L=['6/1','6/2','6/3','6/4','6/5','6/6','6/7'];
   var S=[16641,11026,7721,8825,8305,5441,4914];
   var U=[12664,9098,6471,7316,7020,4663,4225];
   var V=[33126,14700,9271,10666,9820,6418,5599];
-  ga4Chart = new Chart(document.getElementById('ga4C'),{
+  new Chart(document.getElementById('ga4C'),{
     data:{
       labels:L,
       datasets:[
@@ -652,7 +506,6 @@ var ga4Chart;
     },
     options:{
       responsive:true,maintainAspectRatio:true,
-      animation:{onComplete:function(){/* 렌더 완료 시점 체크용 */}},
       interaction:{mode:'index',intersect:false},
       plugins:{
         legend:{position:'bottom',labels:{boxWidth:10,font:{size:11},padding:12}},
@@ -669,7 +522,6 @@ var ga4Chart;
 /* ════════════════════════════════════
    Channel MULTI-LINE chart
    ════════════════════════════════════ */
-var chChart;
 (function(){
   var L=['6/1','6/2','6/3','6/4','6/5','6/6','6/7'];
   var sets=[
@@ -681,7 +533,7 @@ var chChart;
     {label:'네이버카페', data:[14,4,4,4,8,4,5],         color:'#00B4D8'},
     {label:'티스토리',   data:[2,0,4,3,1,0,1],          color:'#BBBBBB'}
   ];
-  chChart = new Chart(document.getElementById('chC'),{
+  new Chart(document.getElementById('chC'),{
     type:'line',
     data:{
       labels:L,
@@ -713,122 +565,76 @@ var chChart;
             ci.update();
           }
         },
-        tooltip:{
-          callbacks:{
-            label:function(c){return ' '+c.dataset.label+': '+c.parsed.y}
-          }
-        }
+        tooltip:{callbacks:{label:function(c){return ' '+c.dataset.label+': '+c.parsed.y}}}
       },
       scales:{
         x:{grid:{display:false},ticks:{font:{size:11}}},
-        y:{
-          grid:{color:'#EBEBEB'},
-          ticks:{font:{size:11}},
-          beginAtZero:true
-        }
+        y:{grid:{color:'#EBEBEB'},ticks:{font:{size:11}},beginAtZero:true}
       }
     }
   });
 }());
 
 /* ════════════════════════════════════
-   페이지 로딩 후 자동 저장
-   차트 렌더링 완료 후 순차 실행 (1.2s 대기)
+   Notion Embed 뷰 파라미터 제어
+   ?view=ga4      → GA4 차트만 (표 숨김)
+   ?view=channel  → 채널 차트만 (표·범례 숨김)
+   ?view=keyword  → 키워드 타임라인만
+   (없음)          → 전체 보고서
    ════════════════════════════════════ */
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    exportAll();
-  }, 1200);
-});
-/* ════════════════════════════════════
-   Notion Embed용 URL 파라미터 뷰 제어
-   ?view=ga4      → GA4 섹션만 표시
-   ?view=channel  → 채널 섹션만 표시
-   ?view=keyword  → 키워드 섹션만 표시
-   (파라미터 없음) → 전체 보고서 표시
-   ════════════════════════════════════ */
-(function () {
+(function(){
   var params = new URLSearchParams(window.location.search);
   var view   = params.get('view');
+  if(!view) return;
 
-  if (!view) return; /* 파라미터 없으면 전체 표시, 아무것도 안 함 */
-
-  /* view 파라미터 있을 때: embed 모드 CSS 적용 */
+  /* embed 공통: 배경 흰색, 여백 최소화 */
   document.body.classList.add('embed-mode');
 
-  /* 섹션 ID ↔ view 값 매핑 */
-  var sectionMap = {
-    'ga4'     : 'ga4-section',
-    'channel' : 'channel-section',
-    'keyword' : 'keyword-section'
-  };
+  var ALL_SECTIONS = ['ga4-section','channel-section','keyword-section'];
 
-  /* 헤더·Summary·원문·Footer 등 비섹션 요소 처리 */
-  var FULL_ONLY_SELECTORS = [
-    '.hdr',          /* 보고서 헤더 */
-    '.sl:not([data-keep])', /* 해당 섹션 외 구분선은 JS가 처리 */
-    '#summarySection',
-    '.ftr',          /* 푸터 */
-    '.export-panel', /* export 버튼 패널 */
-    'p.sub-note'     /* 주석 텍스트 - 섹션 내 것만 살아남게 아래서 재처리 */
-  ];
+  /* 헤더 / Summary 카드 / 원문 분석 / 푸터 전체 숨김 */
+  ['.hdr','.sc','.ftr',
+   '.sl',                     /* 모든 section label 일단 숨김 */
+   '.pc','.nc',               /* 원문·뉴스 카드 */
+   'p[style*="font-size:11.5px"]' /* 원문 소제목 */
+  ].forEach(function(sel){
+    document.querySelectorAll(sel).forEach(function(el){ el.style.display='none'; });
+  });
 
-  /* 전략: 전체를 일단 숨기고, 해당 섹션만 다시 보이게 */
-  var allSections = ['ga4-section', 'channel-section', 'keyword-section'];
-  var targetId = sectionMap[view];
+  /* 3개 섹션 전부 숨김 */
+  ALL_SECTIONS.forEach(function(id){
+    var el=document.getElementById(id);
+    if(el) el.style.display='none';
+  });
 
-  if (!targetId) {
-    /* 알 수 없는 view 값 → 전체 표시 */
-    document.body.classList.remove('embed-mode');
-    return;
+  /* 타깃 섹션 처리 */
+  if(view==='ga4'){
+    var sec=document.getElementById('ga4-section');
+    if(!sec) return;
+    sec.style.display='block';
+    /* 섹션 내 sl 복원 */
+    sec.querySelectorAll('.sl').forEach(function(el){ el.style.display='flex'; });
+    /* 표·주석 숨김 → 차트만 */
+    sec.querySelectorAll('.ga4-table,.ga4-note').forEach(function(el){ el.style.display='none'; });
+
+  } else if(view==='channel'){
+    var sec=document.getElementById('channel-section');
+    if(!sec) return;
+    sec.style.display='block';
+    sec.querySelectorAll('.sl').forEach(function(el){ el.style.display='flex'; });
+    /* 표·범례 pill·주석 숨김 → 차트만 */
+    sec.querySelectorAll('.ch-table,.ch-note,.ch-pills').forEach(function(el){ el.style.display='none'; });
+
+  } else if(view==='keyword'){
+    var sec=document.getElementById('keyword-section');
+    if(!sec) return;
+    sec.style.display='block';
+    sec.querySelectorAll('.sl').forEach(function(el){ el.style.display='flex'; });
+    /* 키워드는 그대로 — 숨길 것 없음 */
   }
 
-  /* 1) 헤더·Summary·푸터·export패널 숨기기 */
-  var hideSelectors = ['.hdr', '.sc', '#summarySection', '.ftr', '.export-panel'];
-  hideSelectors.forEach(function (sel) {
-    document.querySelectorAll(sel).forEach(function (el) {
-      el.style.display = 'none';
-    });
-  });
-
-  /* 2) Executive Summary 섹션 레이블 숨기기 */
-  document.querySelectorAll('.sl').forEach(function (el) {
-    el.style.display = 'none';
-  });
-
-  /* 3) 모든 섹션 숨기기 */
-  allSections.forEach(function (id) {
-    var el = document.getElementById(id);
-    if (el) el.style.display = 'none';
-  });
-
-  /* 4) 원문 분석 섹션 전체 숨기기 (TOP 원문 / 언론 기사) */
-  document.querySelectorAll('.pc, .nc').forEach(function (el) {
-    el.style.display = 'none';
-  });
-  /* 원문 섹션 레이블 텍스트 찾아서 숨기기 */
-  document.querySelectorAll('p[style*="font-size:11.5px"]').forEach(function (el) {
-    el.style.display = 'none';
-  });
-
-  /* 5) 해당 섹션만 다시 표시 */
-  var target = document.getElementById(targetId);
-  if (target) {
-    target.style.display = 'block';
-    /* 섹션 내 .sl도 다시 보이게 */
-    target.querySelectorAll('.sl').forEach(function (el) {
-      el.style.display = 'flex';
-    });
-    /* 섹션 내 sub-note도 다시 보이게 */
-    target.querySelectorAll('.sub-note').forEach(function (el) {
-      el.style.display = 'block';
-    });
-  }
-
-  /* 6) 차트 리사이즈 트리거 (숨겼다 보이면 canvas 크기 재계산 필요) */
-  setTimeout(function () {
-    window.dispatchEvent(new Event('resize'));
-  }, 100);
+  /* 차트 canvas 크기 재계산 */
+  setTimeout(function(){ window.dispatchEvent(new Event('resize')); }, 80);
 }());
 </script>
 </body>
