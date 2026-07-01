@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="ko">
-<head>
-<meta charset="UTF-8">
+<!-- saved from url=(0064)file:///C:/Users/HY/Downloads/arih_report_20260622_20260628.html -->
+<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ARIH 소셜미디어 주간 현황 | 2026년 6월 4주</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="./ARIH 소셜미디어 주간 현황 _ 2026년 6월 4주_files/chart.umd.min.js.다운로드"></script>
 <style>
   :root {
     --primary: #4A67FF;
@@ -453,13 +453,14 @@
   </div>
 
   <!-- ③ GA4 -->
-  <div class="section">
+<div id="ga4-section">
+<div class="section">
     <div class="section-title">이벤트 페이지 반응 (GA4)</div>
 
     <div class="card">
       <div class="card-body">
         <div class="chart-wrap">
-          <canvas id="ga4Chart"></canvas>
+          <canvas id="ga4Chart" width="368" height="200" style="display: block; box-sizing: border-box; height: 200px; width: 368px;"></canvas>
         </div>
       </div>
     </div>
@@ -521,14 +522,17 @@
     </div>
   </div>
 
-  <!-- ④ 채널별 언급량 -->
-  <div class="section">
+  </div><!-- /#ga4-section -->
+
+<!-- ④ 채널별 언급량 -->
+<div id="channel-section">
+<div class="section">
     <div class="section-title">채널별 언급량 추이</div>
     <div class="card">
       <div class="card-body">
-        <div id="channelLegend" class="legend-row"></div>
+        <div id="channelLegend" class="legend-row"><span class="leg-chip" style="color: rgb(74, 103, 255); border-color: rgb(74, 103, 255); background: transparent;">인스타그램</span><span class="leg-chip" style="color: rgb(16, 185, 129); border-color: rgb(16, 185, 129); background: transparent;">네이버블로그</span><span class="leg-chip" style="color: rgb(245, 158, 11); border-color: rgb(245, 158, 11); background: transparent;">커뮤니티</span><span class="leg-chip" style="color: rgb(139, 92, 246); border-color: rgb(139, 92, 246); background: transparent;">네이버카페</span><span class="leg-chip" style="color: rgb(239, 68, 68); border-color: rgb(239, 68, 68); background: transparent;">언론사뉴스</span><span class="leg-chip" style="color: rgb(236, 72, 153); border-color: rgb(236, 72, 153); background: transparent;">유튜브</span><span class="leg-chip" style="color: rgb(156, 163, 175); border-color: rgb(156, 163, 175); background: transparent;">티스토리</span></div>
         <div class="chart-wrap" style="height:220px;">
-          <canvas id="channelChart"></canvas>
+          <canvas id="channelChart" width="368" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 368px;"></canvas>
         </div>
       </div>
     </div>
@@ -558,8 +562,11 @@
     </div>
   </div>
 
-  <!-- ⑤ 키워드 타임라인 -->
-  <div class="section">
+  </div><!-- /#channel-section -->
+
+<!-- ⑤ 키워드 타임라인 -->
+<div id="keyword-section">
+<div class="section">
     <div class="section-title">주요 키워드 변화</div>
     <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px;padding:0 2px;">인스타그램·블로그·커뮤니티 통합 | <span style="color:var(--primary);font-weight:600;">■</span> 신규/상승 &nbsp;<span style="color:var(--text-muted);font-weight:600;">■</span> 주요 연관</p>
     <div class="card">
@@ -639,7 +646,9 @@
     </div>
   </div>
 
-  <!-- ⑥ 원문 분석 -->
+  </div><!-- /#keyword-section -->
+
+<!-- ⑥ 원문 분석 -->
   <div class="section">
     <div class="section-title">원문 분석 — 한국어 TOP 10</div>
 
@@ -1086,5 +1095,6 @@
   });
 })();
 </script>
-</body>
-</html>
+
+
+</body></html>
