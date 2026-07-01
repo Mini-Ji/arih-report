@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<!-- saved from url=(0064)file:///C:/Users/HY/Downloads/arih_report_20260622_20260628.html -->
-<html lang="ko"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>ARIH 소셜미디어 주간 현황 | 2026년 6월 4주</title>
-<script src="./ARIH 소셜미디어 주간 현황 _ 2026년 6월 4주_files/chart.umd.min.js.다운로드"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
 <style>
   :root {
     --primary: #4A67FF;
@@ -382,9 +382,64 @@
     border-radius: 20px;
     font-weight: 600;
   }
+
+  /* ─── EMBED MODE ─── */
+  body.embed-mode {
+    background: transparent;
+  }
+  body.embed-mode .wrap {
+    padding: 8px 0 8px;
+    max-width: 100%;
+  }
+  body.embed-mode .section {
+    padding: 8px 12px 0;
+  }
 </style>
 </head>
 <body>
+<script>
+(function () {
+  var view = new URLSearchParams(window.location.search).get('view');
+  if (!view) return;
+
+  // embed 모드: 여백 최소화
+  document.addEventListener('DOMContentLoaded', function () {
+    document.body.classList.add('embed-mode');
+
+    var allSections = document.querySelectorAll('.section, .report-header');
+    var targetId = {
+      'ga4':     'ga4-section',
+      'channel': 'channel-section',
+      'keyword': 'keyword-section'
+    }[view];
+
+    if (!targetId) return;
+
+    // 모든 섹션 숨기기
+    allSections.forEach(function (el) {
+      el.style.display = 'none';
+    });
+
+    // 대상 섹션만 표시
+    var target = document.getElementById(targetId);
+    if (target) {
+      target.style.display = '';
+    }
+
+    // ga4, channel: 데이터 표 숨기기 (차트만 표시)
+    if (view === 'ga4') {
+      var tbl = document.getElementById('ga4-table-wrap');
+      if (tbl) tbl.style.display = 'none';
+    }
+    if (view === 'channel') {
+      var tbl2 = document.getElementById('channel-table-wrap');
+      var note = document.getElementById('channel-note');
+      if (tbl2) tbl2.style.display = 'none';
+      if (note) note.style.display = 'none';
+    }
+  });
+})();
+</script>
 <div class="wrap">
 
   <!-- ① HEADER -->
@@ -453,18 +508,18 @@
   </div>
 
   <!-- ③ GA4 -->
-  <div class="section">
+  <div class="section" id="ga4-section">
     <div class="section-title">이벤트 페이지 반응 (GA4)</div>
 
     <div class="card">
       <div class="card-body">
         <div class="chart-wrap">
-          <canvas id="ga4Chart" width="368" height="200" style="display: block; box-sizing: border-box; height: 200px; width: 368px;"></canvas>
+          <canvas id="ga4Chart"></canvas>
         </div>
       </div>
     </div>
 
-    <div class="tbl-wrap">
+    <div class="tbl-wrap" id="ga4-table-wrap">
       <table>
         <thead>
           <tr>
@@ -522,20 +577,20 @@
   </div>
 
   <!-- ④ 채널별 언급량 -->
-  <div class="section">
+  <div class="section" id="channel-section">
     <div class="section-title">채널별 언급량 추이</div>
     <div class="card">
       <div class="card-body">
-        <div id="channelLegend" class="legend-row"><span class="leg-chip" style="color: rgb(74, 103, 255); border-color: rgb(74, 103, 255); background: transparent;">인스타그램</span><span class="leg-chip" style="color: rgb(16, 185, 129); border-color: rgb(16, 185, 129); background: transparent;">네이버블로그</span><span class="leg-chip" style="color: rgb(245, 158, 11); border-color: rgb(245, 158, 11); background: transparent;">커뮤니티</span><span class="leg-chip" style="color: rgb(139, 92, 246); border-color: rgb(139, 92, 246); background: transparent;">네이버카페</span><span class="leg-chip" style="color: rgb(239, 68, 68); border-color: rgb(239, 68, 68); background: transparent;">언론사뉴스</span><span class="leg-chip" style="color: rgb(236, 72, 153); border-color: rgb(236, 72, 153); background: transparent;">유튜브</span><span class="leg-chip" style="color: rgb(156, 163, 175); border-color: rgb(156, 163, 175); background: transparent;">티스토리</span></div>
+        <div id="channelLegend" class="legend-row"></div>
         <div class="chart-wrap" style="height:220px;">
-          <canvas id="channelChart" width="368" height="220" style="display: block; box-sizing: border-box; height: 220px; width: 368px;"></canvas>
+          <canvas id="channelChart"></canvas>
         </div>
       </div>
     </div>
 
     <!-- 뉴스 참고 데이터 표 -->
-    <p style="font-size:11px;color:var(--text-muted);margin-bottom:6px;padding:0 2px;">※ 포털 뉴스는 참고 데이터 (keyword+exclude 조건만 적용)</p>
-    <div class="tbl-wrap">
+    <p id="channel-note" style="font-size:11px;color:var(--text-muted);margin-bottom:6px;padding:0 2px;">※ 포털 뉴스는 참고 데이터 (keyword+exclude 조건만 적용)</p>
+    <div class="tbl-wrap" id="channel-table-wrap">
       <table>
         <thead>
           <tr>
@@ -559,7 +614,7 @@
   </div>
 
   <!-- ⑤ 키워드 타임라인 -->
-  <div class="section">
+  <div class="section" id="keyword-section">
     <div class="section-title">주요 키워드 변화</div>
     <p style="font-size:11px;color:var(--text-muted);margin-bottom:10px;padding:0 2px;">인스타그램·블로그·커뮤니티 통합 | <span style="color:var(--primary);font-weight:600;">■</span> 신규/상승 &nbsp;<span style="color:var(--text-muted);font-weight:600;">■</span> 주요 연관</p>
     <div class="card">
@@ -945,6 +1000,8 @@
 </div><!-- /wrap -->
 
 <script>
+document.addEventListener('DOMContentLoaded', function () {
+
 // ── GA4 Chart ──
 (function(){
   const labels = ['06/22','06/23','06/24','06/25','06/26','06/27','06/28'];
@@ -1085,7 +1142,8 @@
     legendEl.appendChild(chip);
   });
 })();
+
+}); // end DOMContentLoaded
 </script>
-
-
-</body></html>
+</body>
+</html>
